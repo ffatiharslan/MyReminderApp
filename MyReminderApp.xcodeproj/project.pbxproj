@@ -14,6 +14,10 @@
 		403AF3742B4D60C00001E021 /* MyReminderApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3722B4D60C00001E021 /* MyReminderApp.xcdatamodeld */; };
 		403AF3762B4D60C10001E021 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 403AF3752B4D60C10001E021 /* Assets.xcassets */; };
 		403AF3792B4D60C10001E021 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 403AF3772B4D60C10001E021 /* LaunchScreen.storyboard */; };
+		403AF3812B4D61340001E021 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3802B4D61340001E021 /* AddViewController.swift */; };
+		403AF3832B4DE0110001E021 /* ReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3822B4DE0110001E021 /* ReminderVC.swift */; };
+		409ECD932B4ED77C007247D8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409ECD922B4ED77C007247D8 /* MediaPlayer.framework */; };
+		409ECD952B4EE0F2007247D8 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 409ECD942B4EE0F2007247D8 /* alarm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,11 @@
 		403AF3752B4D60C10001E021 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		403AF3782B4D60C10001E021 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		403AF37A2B4D60C10001E021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		403AF3802B4D61340001E021 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		403AF3822B4DE0110001E021 /* ReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderVC.swift; sourceTree = "<group>"; };
+		409ECD922B4ED77C007247D8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		409ECD942B4EE0F2007247D8 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = alarm.mp3; path = ../../../Downloads/alarm.mp3; sourceTree = "<group>"; };
+		409ECD962B4EE0F6007247D8 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				409ECD932B4ED77C007247D8 /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +54,7 @@
 			children = (
 				403AF3682B4D60C00001E021 /* MyReminderApp */,
 				403AF3672B4D60C00001E021 /* Products */,
+				409ECD912B4ED77B007247D8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,13 +72,25 @@
 				403AF3692B4D60C00001E021 /* AppDelegate.swift */,
 				403AF36B2B4D60C00001E021 /* SceneDelegate.swift */,
 				403AF36D2B4D60C00001E021 /* ViewController.swift */,
+				403AF3802B4D61340001E021 /* AddViewController.swift */,
+				403AF3822B4DE0110001E021 /* ReminderVC.swift */,
 				403AF36F2B4D60C00001E021 /* Main.storyboard */,
 				403AF3752B4D60C10001E021 /* Assets.xcassets */,
 				403AF3772B4D60C10001E021 /* LaunchScreen.storyboard */,
 				403AF37A2B4D60C10001E021 /* Info.plist */,
+				409ECD942B4EE0F2007247D8 /* alarm.mp3 */,
 				403AF3722B4D60C00001E021 /* MyReminderApp.xcdatamodeld */,
 			);
 			path = MyReminderApp;
+			sourceTree = "<group>";
+		};
+		409ECD912B4ED77B007247D8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				409ECD962B4EE0F6007247D8 /* alarm.mp3 */,
+				409ECD922B4ED77C007247D8 /* MediaPlayer.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +151,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				409ECD952B4EE0F2007247D8 /* alarm.mp3 in Resources */,
 				403AF3792B4D60C10001E021 /* LaunchScreen.storyboard in Resources */,
 				403AF3762B4D60C10001E021 /* Assets.xcassets in Resources */,
 				403AF3712B4D60C00001E021 /* Main.storyboard in Resources */,
@@ -141,6 +165,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				403AF3832B4DE0110001E021 /* ReminderVC.swift in Sources */,
+				403AF3812B4D61340001E021 /* AddViewController.swift in Sources */,
 				403AF36E2B4D60C00001E021 /* ViewController.swift in Sources */,
 				403AF36A2B4D60C00001E021 /* AppDelegate.swift in Sources */,
 				403AF36C2B4D60C00001E021 /* SceneDelegate.swift in Sources */,
