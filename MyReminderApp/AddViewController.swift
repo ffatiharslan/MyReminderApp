@@ -5,6 +5,8 @@
 //  Created by fatih arslan on 9.01.2024.
 //
 
+
+
 import UIKit
 import CoreData
 import MediaPlayer
@@ -13,7 +15,7 @@ import MobileCoreServices
 import UserNotifications
 import Foundation
 
-class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource,  MPMediaPickerControllerDelegate , AVAudioPlayerDelegate{
+class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource,  MPMediaPickerControllerDelegate , AVAudioPlayerDelegate, UIDocumentPickerDelegate{
     
     //outlets
     @IBOutlet weak var stackView1: UIStackView!
@@ -35,6 +37,8 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     var selectedRingtoneURL: URL?
     
     var audioPlayer: AVAudioPlayer?
+    
+    var alarmSound: URL?
     
         let data = ["10 dakika önce", "20 dakika önce", "30 dakika önce", "40 dakika önce"] // Açılır liste seçenekleri
         var selectedOption: String?
@@ -236,12 +240,30 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     //---------------------------------------------------------------------
     
     @objc func ringTapClicked() {
-        let audioPickerController = MPMediaPickerController(mediaTypes: .anyAudio)
-        audioPickerController.delegate = self
-        audioPickerController.allowsPickingMultipleItems = false
-        present(audioPickerController, animated: true, completion: nil)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.audio"], in: .import)
+            documentPicker.delegate = self
+            present(documentPicker, animated: true, completion: nil)
     }
     
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+           guard let soundURL = urls.first else {
+               print("Dosya seçilmedi")
+               return
+           }
+
+        
+        do {
+                   audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                   audioPlayer?.prepareToPlay()
+                   audioPlayer?.play()
+               } catch {
+                   print("Ses dosyasını çalarken hata oluştu: \(error.localizedDescription)")
+               }
+        alarmSound=soundURL
+        
+          
+       }
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
             dismiss(animated: true, completion: nil)
@@ -263,29 +285,16 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     
     
     func scheduleNotification(alarmDate: Date) {
-        func saveAudioFile(data: Data, fileName: String) throws -> URL {
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let soundFileURL = documentsDirectory.appendingPathComponent(fileName)
-            try data.write(to: soundFileURL)
-            return soundFileURL
-        }
+        
+        
 
         let content = UNMutableNotificationContent()
         content.title = "Hatırlatma"
         content.body = textField.text ?? "Bir hatırlatıcınız var!"
 
-        // Bildirime zil sesi ekle
-        if let selectedRingtoneURL = selectedRingtoneURL {
-            do {
-                let audioData = try Data(contentsOf: selectedRingtoneURL)
-                let soundFileURL = try saveAudioFile(data: audioData, fileName: "customRingtone.caf")
-                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: soundFileURL.absoluteString))
-            } catch {
-                print("Error creating sound file: \(error.localizedDescription)")
-            }
-        } else {
-            content.sound = UNNotificationSound.default
-        }
+       
+               content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: alarmSound!.absoluteString))
+          
 
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: alarmDate)
@@ -310,18 +319,13 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     
     //----------------------------------------------------------------------------------------
     func playAlarmSound() {
-            guard let soundURL = Bundle.main.url(forResource: "alarm", withExtension: "mp3") else {
-                return
-            }
-
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-                audioPlayer?.delegate = self
-                audioPlayer?.prepareToPlay()
-                audioPlayer?.play()
-            } catch let error {
-                print("Error playing alarm sound: \(error.localizedDescription)")
-            }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: alarmSound!)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch {
+            print("Ses dosyasını çalarken hata oluştu: \(error.localizedDescription)")
+        }
         }
 
         // AVAudioPlayerDelegate metodu
@@ -339,5 +343,3 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             playAlarmSound()
         }
 }
-
-

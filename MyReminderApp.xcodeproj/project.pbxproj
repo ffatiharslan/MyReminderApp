@@ -17,7 +17,6 @@
 		403AF3812B4D61340001E021 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3802B4D61340001E021 /* AddViewController.swift */; };
 		403AF3832B4DE0110001E021 /* ReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3822B4DE0110001E021 /* ReminderVC.swift */; };
 		409ECD932B4ED77C007247D8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409ECD922B4ED77C007247D8 /* MediaPlayer.framework */; };
-		409ECD952B4EE0F2007247D8 /* alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 409ECD942B4EE0F2007247D8 /* alarm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		403AF3802B4D61340001E021 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		403AF3822B4DE0110001E021 /* ReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderVC.swift; sourceTree = "<group>"; };
 		409ECD922B4ED77C007247D8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		409ECD942B4EE0F2007247D8 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = alarm.mp3; path = ../../../Downloads/alarm.mp3; sourceTree = "<group>"; };
 		409ECD962B4EE0F6007247D8 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,7 +76,6 @@
 				403AF3752B4D60C10001E021 /* Assets.xcassets */,
 				403AF3772B4D60C10001E021 /* LaunchScreen.storyboard */,
 				403AF37A2B4D60C10001E021 /* Info.plist */,
-				409ECD942B4EE0F2007247D8 /* alarm.mp3 */,
 				403AF3722B4D60C00001E021 /* MyReminderApp.xcdatamodeld */,
 			);
 			path = MyReminderApp;
@@ -151,7 +148,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				409ECD952B4EE0F2007247D8 /* alarm.mp3 in Resources */,
 				403AF3792B4D60C10001E021 /* LaunchScreen.storyboard in Resources */,
 				403AF3762B4D60C10001E021 /* Assets.xcassets in Resources */,
 				403AF3712B4D60C00001E021 /* Main.storyboard in Resources */,
