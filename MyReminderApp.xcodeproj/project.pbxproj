@@ -16,6 +16,16 @@
 		403AF3792B4D60C10001E021 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 403AF3772B4D60C10001E021 /* LaunchScreen.storyboard */; };
 		403AF3812B4D61340001E021 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3802B4D61340001E021 /* AddViewController.swift */; };
 		403AF3832B4DE0110001E021 /* ReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403AF3822B4DE0110001E021 /* ReminderVC.swift */; };
+		408381042B4FFFF600510D13 /* Astronaut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381012B4FFFF500510D13 /* Astronaut.mp3 */; };
+		408381052B4FFFF600510D13 /* Huawei.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381022B4FFFF600510D13 /* Huawei.mp3 */; };
+		408381062B4FFFF600510D13 /* Poco.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381032B4FFFF600510D13 /* Poco.mp3 */; };
+		4083810A2B50000600510D13 /* Poco.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381072B50000600510D13 /* Poco.mp3 */; };
+		4083810B2B50000600510D13 /* Astronaut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381082B50000600510D13 /* Astronaut.mp3 */; };
+		4083810C2B50000600510D13 /* Huawei.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381092B50000600510D13 /* Huawei.mp3 */; };
+		4083810E2B50002300510D13 /* Poco.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4083810D2B50002300510D13 /* Poco.mp3 */; };
+		408381102B50002F00510D13 /* Poco.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4083810F2B50002F00510D13 /* Poco.mp3 */; };
+		408381122B50003500510D13 /* Astronaut.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381112B50003500510D13 /* Astronaut.mp3 */; };
+		408381142B50003B00510D13 /* Huawei.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 408381132B50003B00510D13 /* Huawei.mp3 */; };
 		409ECD932B4ED77C007247D8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 409ECD922B4ED77C007247D8 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +41,16 @@
 		403AF37A2B4D60C10001E021 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		403AF3802B4D61340001E021 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		403AF3822B4DE0110001E021 /* ReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderVC.swift; sourceTree = "<group>"; };
+		408381012B4FFFF500510D13 /* Astronaut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Astronaut.mp3; path = ../../Downloads/Astronaut.mp3; sourceTree = "<group>"; };
+		408381022B4FFFF600510D13 /* Huawei.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Huawei.mp3; path = ../../Downloads/Huawei.mp3; sourceTree = "<group>"; };
+		408381032B4FFFF600510D13 /* Poco.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Poco.mp3; path = ../../Downloads/Poco.mp3; sourceTree = "<group>"; };
+		408381072B50000600510D13 /* Poco.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Poco.mp3; path = ../../Downloads/Poco.mp3; sourceTree = "<group>"; };
+		408381082B50000600510D13 /* Astronaut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Astronaut.mp3; path = ../../Downloads/Astronaut.mp3; sourceTree = "<group>"; };
+		408381092B50000600510D13 /* Huawei.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Huawei.mp3; path = ../../Downloads/Huawei.mp3; sourceTree = "<group>"; };
+		4083810D2B50002300510D13 /* Poco.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Poco.mp3; path = ../../Downloads/Poco.mp3; sourceTree = "<group>"; };
+		4083810F2B50002F00510D13 /* Poco.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Poco.mp3; path = ../../../Downloads/Poco.mp3; sourceTree = "<group>"; };
+		408381112B50003500510D13 /* Astronaut.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Astronaut.mp3; path = ../../../Downloads/Astronaut.mp3; sourceTree = "<group>"; };
+		408381132B50003B00510D13 /* Huawei.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Huawei.mp3; path = ../../../Downloads/Huawei.mp3; sourceTree = "<group>"; };
 		409ECD922B4ED77C007247D8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		409ECD962B4EE0F6007247D8 /* alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +89,9 @@
 			children = (
 				403AF3692B4D60C00001E021 /* AppDelegate.swift */,
 				403AF36B2B4D60C00001E021 /* SceneDelegate.swift */,
+				408381132B50003B00510D13 /* Huawei.mp3 */,
+				408381112B50003500510D13 /* Astronaut.mp3 */,
+				4083810F2B50002F00510D13 /* Poco.mp3 */,
 				403AF36D2B4D60C00001E021 /* ViewController.swift */,
 				403AF3802B4D61340001E021 /* AddViewController.swift */,
 				403AF3822B4DE0110001E021 /* ReminderVC.swift */,
@@ -84,6 +107,13 @@
 		409ECD912B4ED77B007247D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4083810D2B50002300510D13 /* Poco.mp3 */,
+				408381012B4FFFF500510D13 /* Astronaut.mp3 */,
+				408381022B4FFFF600510D13 /* Huawei.mp3 */,
+				408381082B50000600510D13 /* Astronaut.mp3 */,
+				408381092B50000600510D13 /* Huawei.mp3 */,
+				408381032B4FFFF600510D13 /* Poco.mp3 */,
+				408381072B50000600510D13 /* Poco.mp3 */,
 				409ECD962B4EE0F6007247D8 /* alarm.mp3 */,
 				409ECD922B4ED77C007247D8 /* MediaPlayer.framework */,
 			);
@@ -148,9 +178,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				408381062B4FFFF600510D13 /* Poco.mp3 in Resources */,
 				403AF3792B4D60C10001E021 /* LaunchScreen.storyboard in Resources */,
 				403AF3762B4D60C10001E021 /* Assets.xcassets in Resources */,
+				408381052B4FFFF600510D13 /* Huawei.mp3 in Resources */,
 				403AF3712B4D60C00001E021 /* Main.storyboard in Resources */,
+				4083810B2B50000600510D13 /* Astronaut.mp3 in Resources */,
+				4083810A2B50000600510D13 /* Poco.mp3 in Resources */,
+				408381102B50002F00510D13 /* Poco.mp3 in Resources */,
+				408381122B50003500510D13 /* Astronaut.mp3 in Resources */,
+				408381142B50003B00510D13 /* Huawei.mp3 in Resources */,
+				4083810E2B50002300510D13 /* Poco.mp3 in Resources */,
+				408381042B4FFFF600510D13 /* Astronaut.mp3 in Resources */,
+				4083810C2B50000600510D13 /* Huawei.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

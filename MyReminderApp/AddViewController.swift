@@ -9,13 +9,14 @@
 
 import UIKit
 import CoreData
-import MediaPlayer
-import AVFoundation
 import MobileCoreServices
 import UserNotifications
 import Foundation
+import AVFoundation
 
-class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource,  MPMediaPickerControllerDelegate , AVAudioPlayerDelegate, UIDocumentPickerDelegate{
+class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource{
+   
+    
     
     //outlets
     @IBOutlet weak var stackView1: UIStackView!
@@ -34,15 +35,21 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     var datePicker: UIDatePicker = UIDatePicker()
     var timePicker: UIDatePicker = UIDatePicker()
     
-    var selectedRingtoneURL: URL?
-    
     var audioPlayer: AVAudioPlayer?
+    var timer: Timer?
+    var combinedDate: Date?
     
-    var alarmSound: URL?
     
-        let data = ["10 dakika önce", "20 dakika önce", "30 dakika önce", "40 dakika önce"] // Açılır liste seçenekleri
-        var selectedOption: String?
-        
+    
+    //let soundPickerView = UIPickerView()
+    //var soundData: [String] = ["Huawei", "Astronaut" , "Poco"]
+    //var selectedAlarmSound: String?
+    
+    let data = ["10 dakika önce", "20 dakika önce", "30 dakika önce", "40 dakika önce"] // Açılır liste seçenekleri
+    var selectedOption: String? = "10 dakika önce"
+
+   
+
         override func viewDidLoad() {
             super.viewDidLoad()
            
@@ -60,9 +67,9 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             stackView2.isUserInteractionEnabled = true
             stackView2.addGestureRecognizer(timeTapGesture)
             
-            let ringTapGesture = UITapGestureRecognizer(target: self, action: #selector(ringTapClicked))
+            /*let ringTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
             stackView3.isUserInteractionEnabled = true
-            stackView3.addGestureRecognizer(ringTapGesture)
+            stackView3.addGestureRecognizer(ringTapGesture)*/
             
             // Date picker ayarları
             datePicker.datePickerMode = .date
@@ -72,6 +79,23 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             timePicker.datePickerMode = .time
             timePicker.locale = Locale(identifier: "tr_TR") // Türkçe saat formatı
             timePicker.addTarget(self, action: #selector(timeChanged), for: .valueChanged)
+            
+           
+            //soundPickerView.delegate = self
+            //soundPickerView.dataSource = self
+            
+            if let soundPath = Bundle.main.path(forResource: "Poco", ofType: "mp3") {
+                       let soundURL = URL(fileURLWithPath: soundPath)
+
+                       do {
+                           // AVAudioPlayer oluşturun ve ses dosyasını yükleyin
+                           audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+                           audioPlayer!.prepareToPlay()
+                       } catch {
+                           print("Error loading alarm sound: \(error.localizedDescription)")
+                       }
+                   }
+
         }
         
         // Label'a tıklandığında çalışacak fonksiyon
@@ -137,92 +161,121 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             dateLabel.resignFirstResponder()
         }
     
-    @objc func timeSelected() {
+        @objc func timeSelected() {
            timeLabel.resignFirstResponder()
        }
+    
+    
         
-        // UIPickerViewDelegate ve UIPickerViewDataSource protokollerinden gelen metotlar
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1 // Tek bir sütun kullanıyoruz
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            return data.count // Açılır liste seçeneklerinin sayısı
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            return data[row] // Her bir satır için metin
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            selectedOption = data[row] // Kullanıcının seçtiği seçeneği kaydet
-            // Seçilen değeri kullanabilirsiniz, örneğin:
-            // print("Seçilen seçenek: \(selectedOption ?? "")")
-        }
+    // UIPickerViewDelegate ve UIPickerViewDataSource protokollerinden gelen metotlar
+       func numberOfComponents(in pickerView: UIPickerView) -> Int {
+           return 1 // Tek bir sütun kullanıyoruz
+       }
+
+       func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+          return data.count
+       }
+
+       func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+          return data[row]
+       }
+
+       func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+           selectedOption = data[row]
+       }
         
         @IBAction func kaydetButtonClicked(_ sender: Any) {
-            
             guard let selectedOption = selectedOption else {
-                   // Kullanıcı henüz bir seçenek seçmemişse işlemi iptal et
-                   return
-               }
-           
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context  = appDelegate.persistentContainer.viewContext
-            
-            let newReminder = NSEntityDescription.insertNewObject(forEntityName: "Reminders", into: context)
-            
-            // Tarih ve saat bilgilerini birleştirerek tek bir Date nesnesi oluşturun.
+                    // Kullanıcı henüz bir seçenek seçmemişse işlemi iptal et
+                    return
+                }
+
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context = appDelegate.persistentContainer.viewContext
+
+                let newReminder = NSEntityDescription.insertNewObject(forEntityName: "Reminders", into: context)
+
+                // Tarih ve saat bilgilerini birleştirerek tek bir Date nesnesi oluşturun.
                 let calendar = Calendar.current
                 let combinedDate = calendar.date(bySettingHour: calendar.component(.hour, from: timePicker.date),
                                                 minute: calendar.component(.minute, from: timePicker.date),
                                                 second: 0,
                                                 of: datePicker.date)
+
+                newReminder.setValue("default", forKey: "alarmSound")
+                newReminder.setValue(combinedDate, forKey: "reminderDate")
+
+                newReminder.setValue(textField.text!, forKey: "note")
+                newReminder.setValue(UUID(), forKey: "id")
+                newReminder.setValue(getMinutesBefore(from: selectedOption), forKey: "minutesBefore")
+
+                do {
+                    try context.save()
+                    print("Başarıyla kaydedildi")
+                } catch {
+                    print("Hata oluştu")
+                }
+
+                let notificationContent = UNMutableNotificationContent()
+                notificationContent.title = "Hatırlatma"
+                notificationContent.body = textField.text!
+                notificationContent.sound = UNNotificationSound.default
+
+            // Hatırlatma tarihine ve önceki dakikalara bağlı olarak tetikleyiciyi ayarla
+                if let validCombinedDate = combinedDate {
+                    let triggerDate = validCombinedDate.addingTimeInterval(-TimeInterval(getMinutesBefore(from: selectedOption) * 60))
+                    let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: triggerDate)
+                    let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+                
+                    // Hatırlatıcı için request oluşturun
+                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: notificationContent, trigger: trigger)
+
+                    // Bildirimi planla
+                    UNUserNotificationCenter.current().add(request) { (error) in
+                        if let error = error {
+                            print("Bildirim planlama hatası: \(error.localizedDescription)")
+                        } else {
+                            print("Bildirim başarıyla planlandı")
+                        }
+                    }
+
+                }
             
-            // Eğer kullanıcı bir zil sesi seçtiyse, seçilen zil sesini kaydet
-               if let selectedRingtoneURL = selectedRingtoneURL {
-                   // Zil sesini Core Data'ya kaydetmek için bu URL'yi string'e dönüştürün
-                   let ringtoneURLString = selectedRingtoneURL.absoluteString
-                   newReminder.setValue(ringtoneURLString, forKey: "alarmSound")
-               } else {
-                   // Kullanıcı zil sesi seçmediyse, varsayılan değeri kullanabilirsiniz.
-                   newReminder.setValue("alarm", forKey: "alarmSound")
-               }
+            let alarmNotificationContent = UNMutableNotificationContent()
+            alarmNotificationContent.title = "Hatırlatma"
+            alarmNotificationContent.body = textField.text!
+            alarmNotificationContent.sound = UNNotificationSound.init(named: UNNotificationSoundName("Poco.mp3"))
             
-            newReminder.setValue(combinedDate, forKey: "reminderDate")
-            
-            
-            newReminder.setValue(textField.text!, forKey: "note")
-            newReminder.setValue(UUID(), forKey: "id")
-            newReminder.setValue(getMinutesBefore(from: selectedOption), forKey: "minutesBefore")
-            
-            
-            var dateComponents = DateComponents()
-            dateComponents.minute = -getMinutesBefore(from: selectedOption)
-            
-            let alarmDate = calendar.date(byAdding: dateComponents, to: combinedDate ?? Date()) // uygun bir Date nesnesi oluşturun
-            
-            scheduleNotification(alarmDate: alarmDate!)
-            
-            
-            do{
-                try context.save()
-                print("success")
+            let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: combinedDate!)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+        
+            // Hatırlatıcı için request oluşturun
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: alarmNotificationContent, trigger: trigger)
+
+            // Bildirimi planla
+            UNUserNotificationCenter.current().add(request) { (error) in
+                if let error = error {
+                    print("Bildirim planlama hatası: \(error.localizedDescription)")
+                } else {
+                    print("Bildirim başarıyla planlandı")
+                }
             }
-            catch{
-                print("error")
-            }
-            
-            NotificationCenter.default.post(name: NSNotification.Name("newData"), object: nil)
-                    self.navigationController?.popViewController(animated: true)
-            
+
+                NotificationCenter.default.post(name: NSNotification.Name("newData"), object: nil)
+                self.navigationController?.popViewController(animated: true)
         }
+
+    
+    
+ 
+    
+   
     
     // "dakika önce" seçeneğine göre dakika değerini döndüren yardımcı fonksiyon
     func getMinutesBefore(from option: String) -> Int {
         switch option {
         case "10 dakika önce":
-            return 10
+            return 1
         case "20 dakika önce":
             return 20
         case "30 dakika önce":
@@ -234,112 +287,11 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
         }
     }
     
-    
-    
-    
-    //---------------------------------------------------------------------
-    
-    @objc func ringTapClicked() {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.audio"], in: .import)
-            documentPicker.delegate = self
-            present(documentPicker, animated: true, completion: nil)
-    }
-    
-    
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-           guard let soundURL = urls.first else {
-               print("Dosya seçilmedi")
-               return
-           }
-
-        
-        do {
-                   audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
-                   audioPlayer?.prepareToPlay()
-                   audioPlayer?.play()
-               } catch {
-                   print("Ses dosyasını çalarken hata oluştu: \(error.localizedDescription)")
-               }
-        alarmSound=soundURL
-        
-          
-       }
-    
-    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-            dismiss(animated: true, completion: nil)
-            
-            // Kullanıcı bir zil sesi seçtiğinde, seçilen öğenin URL'sini al
-            if let selectedSong = mediaItemCollection.items.first {
-                selectedRingtoneURL = selectedSong.assetURL
-                // Zil sesi seçildiğinde bir işlem yapabilir veya sadece URL'yi saklayabilirsiniz.
-            }
-        }
-        
-        func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-            dismiss(animated: true, completion: nil)
-            // Kullanıcı seçimi iptal ettiğinde bir işlem yapabilirsiniz.
-        }
-    
-    
-    
-    
-    
-    func scheduleNotification(alarmDate: Date) {
-        
-        
-
-        let content = UNMutableNotificationContent()
-        content.title = "Hatırlatma"
-        content.body = textField.text ?? "Bir hatırlatıcınız var!"
-
-       
-               content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: alarmSound!.absoluteString))
-          
-
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: alarmDate)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-
-        let request = UNNotificationRequest(identifier: "yourNotificationIdentifier", content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request) { (error) in
-            if let error = error {
-                print("Notification scheduling error: \(error)")
-            } else {
-                print("Notification scheduled successfully")
-                
-                // Bildirim başarıyla planlandığında handleReminder fonksiyonunu çağır
-                self.handleReminder()
-            }
-        }
-    }
-
-    
-    
-    
-    //----------------------------------------------------------------------------------------
-    func playAlarmSound() {
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: alarmSound!)
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-        } catch {
-            print("Ses dosyasını çalarken hata oluştu: \(error.localizedDescription)")
-        }
-        }
-
-        // AVAudioPlayerDelegate metodu
-        func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-            if flag {
-                // Alarm sesi başarıyla çalındı, isteğe bağlı olarak burada ek işlemler yapabilirsiniz.
-            }
-        }
-
-        // ...
-
-        // Hatırlatıcı tetiklendiğinde bu fonksiyonu çağırabilirsiniz
-        func handleReminder() {
-            // Hatırlatıcı zamanı geldiğinde bu fonksiyon çağrılacak
-            playAlarmSound()
-        }
+   
 }
+    
+
+        
+
+
+
