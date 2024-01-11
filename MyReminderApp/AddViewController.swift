@@ -29,7 +29,7 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     @IBOutlet weak var ringLabel: UILabel!
     @IBOutlet weak var ringImage: UIImageView!
     @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var pickerMinuteView: UIPickerView!
     
     // Variables
     var datePicker: UIDatePicker = UIDatePicker()
@@ -41,9 +41,9 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
     
     
     
-    //let soundPickerView = UIPickerView()
-    //var soundData: [String] = ["Huawei", "Astronaut" , "Poco"]
-    //var selectedAlarmSound: String?
+    let soundPickerView = UIPickerView()
+    var soundData: [String] = ["Huawei", "Astronaut" , "Poco"]
+    var selectedAlarmSound: String? = "Huawei"
     
     let data = ["10 dakika önce", "20 dakika önce", "30 dakika önce", "40 dakika önce"] // Açılır liste seçenekleri
     var selectedOption: String? = "10 dakika önce"
@@ -55,8 +55,8 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
            
             
             // UIPickerView için delegate ve dataSource ayarları
-            pickerView.delegate = self
-            pickerView.dataSource = self
+            pickerMinuteView.delegate = self
+            pickerMinuteView.dataSource = self
             
             // Label'a tıklanma işlemini algılamak için UITapGestureRecognizer oluşturulması
             let dateTapGesture = UITapGestureRecognizer(target: self, action: #selector(datePickClicked))
@@ -67,9 +67,9 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             stackView2.isUserInteractionEnabled = true
             stackView2.addGestureRecognizer(timeTapGesture)
             
-            /*let ringTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
+            let ringTapGesture = UITapGestureRecognizer(target: self, action: #selector(showSoundPicker))
             stackView3.isUserInteractionEnabled = true
-            stackView3.addGestureRecognizer(ringTapGesture)*/
+            stackView3.addGestureRecognizer(ringTapGesture)
             
             // Date picker ayarları
             datePicker.datePickerMode = .date
@@ -81,8 +81,11 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             timePicker.addTarget(self, action: #selector(timeChanged), for: .valueChanged)
             
            
-            //soundPickerView.delegate = self
-            //soundPickerView.dataSource = self
+            soundPickerView.delegate = self
+            soundPickerView.dataSource = self
+            
+            pickerMinuteView.tag = 1
+            soundPickerView.tag = 2
             
             if let soundPath = Bundle.main.path(forResource: "Poco", ofType: "mp3") {
                        let soundURL = URL(fileURLWithPath: soundPath)
@@ -97,6 +100,25 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
                    }
 
         }
+    
+    
+    //sounpickerview
+    @objc func showSoundPicker() {
+        let alertController = UIAlertController(title: "\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
+        
+        soundPickerView.frame = CGRect(x: 8, y: 30, width: 250, height: 160)
+        alertController.view.addSubview(soundPickerView)
+        
+        let selectAction = UIAlertAction(title: "Seç", style: .default) { [weak self] _ in
+            self?.dateSelected()
+        }
+        let cancelAction = UIAlertAction(title: "İptal", style: .cancel, handler: nil)
+        
+        alertController.addAction(selectAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
         
         // Label'a tıklandığında çalışacak fonksiyon
         @objc func datePickClicked() {
@@ -173,15 +195,35 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
        }
 
        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-          return data.count
+           if pickerView.tag == 1{
+               return data.count
+           }
+           else if pickerView.tag == 2{
+              return soundData.count
+           }
+           return 0
        }
 
        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-          return data[row]
+           if pickerView.tag == 1{
+               return data[row]
+           }
+           else {
+               return soundData[row]
+           }
+           
        }
 
        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-           selectedOption = data[row]
+           
+           
+           if pickerView.tag == 1{
+               selectedOption = data[row]
+           }
+           else {
+              selectedAlarmSound = soundData[row]
+               print(selectedAlarmSound)
+           }
        }
         
         @IBAction func kaydetButtonClicked(_ sender: Any) {
@@ -244,7 +286,8 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             let alarmNotificationContent = UNMutableNotificationContent()
             alarmNotificationContent.title = "Hatırlatma"
             alarmNotificationContent.body = textField.text!
-            alarmNotificationContent.sound = UNNotificationSound.init(named: UNNotificationSoundName("Poco.mp3"))
+            let extensionn = ".mp3"
+            alarmNotificationContent.sound = UNNotificationSound.init(named: UNNotificationSoundName(selectedAlarmSound! + extensionn))
             
             let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: combinedDate!)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
