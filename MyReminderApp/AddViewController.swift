@@ -222,7 +222,7 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
            }
            else {
               selectedAlarmSound = soundData[row]
-               print(selectedAlarmSound)
+               print(selectedAlarmSound!)
            }
        }
         
@@ -290,7 +290,7 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
             alarmNotificationContent.sound = UNNotificationSound.init(named: UNNotificationSoundName(selectedAlarmSound! + extensionn))
             
             let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: combinedDate!)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         
             // Hatırlatıcı için request oluşturun
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: alarmNotificationContent, trigger: trigger)
@@ -303,7 +303,8 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
                     print("Bildirim başarıyla planlandı")
                 }
             }
-
+            
+      
                 NotificationCenter.default.post(name: NSNotification.Name("newData"), object: nil)
                 self.navigationController?.popViewController(animated: true)
         }
