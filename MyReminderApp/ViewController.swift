@@ -31,10 +31,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         
         
     }
-    
     override func viewWillAppear(_ animated: Bool) {
-       super.viewWillAppear(animated)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newData"), object: nil)
         getData()
     }

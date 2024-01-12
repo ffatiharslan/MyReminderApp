@@ -68,6 +68,10 @@ class ReminderVC: UIViewController {
         let gestrueRecognizer = UITapGestureRecognizer(target: self, action: #selector(gorevSil))
         tamamlaImageView.addGestureRecognizer(gestrueRecognizer)
         
+        silImageView.isUserInteractionEnabled = true
+        let silGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(gorevSil))
+        silImageView.addGestureRecognizer(silGestureRecognizer)
+        
        }
     
     @objc func gorevSil() {
