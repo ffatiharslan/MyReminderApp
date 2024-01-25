@@ -4,16 +4,16 @@
 //
 //  Created by fatih arslan on 9.01.2024.
 //
-
+// veri tabanı kütüphanesi ve bildirim kütüphanesi
 import UIKit
 import CoreData
 import UserNotifications
-
+//sınıfları dahil ettik
 class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var tableView: UITableView!
     
-    
+//değişken tanımları
     var idArray = [UUID]()
     var noteArray = [String]()
     var dateArray = [Date]()
@@ -24,8 +24,6 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -35,7 +33,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newData"), object: nil)
         getData()
     }
-    
+ //veri tabanı bağlantı
     @objc func getData() {
         noteArray.removeAll(keepingCapacity: false)
         dateArray.removeAll(keepingCapacity: false)
@@ -68,11 +66,11 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         }
     }
 
-    
+//eklenen not kadar hücre
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return noteArray.count
     }
-    
+  //hücrelerin içerikleri oluşur
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -94,7 +92,7 @@ class ViewController: UIViewController , UITableViewDelegate, UITableViewDataSou
         return cell
         
     }
-    
+   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toReminderVC"{
             let destinationVC =  segue.destination as! ReminderVC

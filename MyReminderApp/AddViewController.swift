@@ -14,7 +14,7 @@ import UserNotifications
 import Foundation
 import AVFoundation
 
-class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource{
+class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDataSource ,UITextFieldDelegate{
    
     
     
@@ -53,6 +53,10 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
         override func viewDidLoad() {
             super.viewDidLoad()
            
+            textField.delegate = self
+            
+            let textfieldTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+                   view.addGestureRecognizer(textfieldTapGesture)
             
             // UIPickerView için delegate ve dataSource ayarları
             pickerMinuteView.delegate = self
@@ -100,6 +104,21 @@ class AddViewController: UIViewController , UIPickerViewDelegate, UIPickerViewDa
                    }
 
         }
+    
+    
+    
+    @objc func handleTap() {
+           // UITextField'tan klavyeyi kapat
+           textField.resignFirstResponder()
+       }
+
+       // UITextFieldDelegate metodu - Return tuşuna basıldığında çağrılır
+       func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           // Klavyeyi kapat
+           textField.resignFirstResponder()
+           return true
+       }
+    
     
     
     //sounpickerview
